@@ -6,7 +6,7 @@ import { EscritorioPagina } from '../escritorio';
 export const AppRouter = () => {
   
     const authStatus = "authenticated";
-  
+
     return (
         <Routes>
             {

@@ -23,18 +23,23 @@ export const CapturaDatos = () => {
 
             // Limpia el enlace temporal y remueve el elemento <a> creado
             URL.revokeObjectURL(csvUrl);
-            document.body.removeChild(link);
+              document.body.removeChild(link);
             })
             .catch(error => {
-            console.error('Error al descargar el archivo CSV:', error);
-            // Puedes agregar lógica adicional aquí para manejar errores
+              console.error('Error al descargar el archivo CSV:', error);
+              // Puedes agregar lógica adicional aquí para manejar errores
             });
     };
     
 
   return (
     <div>
-        <button onClick={handleDownloadClick}>Descargar CSV</button>
+        {/* <button onClick={handleDownloadClick}>Descargar CSV</button> */}
+        <button
+           
+        >
+            Captura de datos
+        </button>
     </div>
   )
 }
