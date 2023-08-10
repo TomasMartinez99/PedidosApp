@@ -1,17 +1,17 @@
 import { pool } from "../db.js";
 
-/* export const getTasks = async (req, res) => {
-    try {
-        const [result] = await pool.query(
-        "SELECT * FROM tasks ORDER BY createAt ASC"
-        );
-        res.json(result);
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
+export const getTasks = async (req, res) => {
+  try {
+    const [result] = await pool.query(
+      "SELECT * FROM tasks ORDER BY createAt ASC"
+    );
+    res.json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
- */
-/* export const getTask = async (req, res) => {
+
+export const getTask = async (req, res) => {
   try {
     const [result] = await pool.query("SELECT * FROM tasks WHERE id = ?", [
       req.params.id,
@@ -29,8 +29,8 @@ import { pool } from "../db.js";
 export const createTask = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const [ result ] = await pool.query(
-      "INSERT INTO tasks('title', description) VALUES (?, ?)",
+    const [result] = await pool.query(
+      "INSERT INTO tasks(title, description) VALUES (?, ?)",
       [title, description]
     );
     res.json({
@@ -61,11 +61,12 @@ export const deleteTask = async (req, res) => {
       req.params.id,
     ]);
 
-    if (result.affectedRows === 0)
+    if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Task not found" });
-
-    return res.sendStatus(204);
+    } else {
+      return res.sendStatus(204); // Todo ok pero no hay datos
+    }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}; */
+};

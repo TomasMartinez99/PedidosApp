@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavBar } from '..'
-import { CapturaDatos } from '../components/CapturaDatos'
+import { CapturaDatos } from '../componentes/CapturaDatos'
 
 export const EscritorioPagina = () => {
   return (

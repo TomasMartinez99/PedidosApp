@@ -30,7 +30,6 @@ export const CapturaDatos = () => {
               // Puedes agregar lógica adicional aquí para manejar errores
             });
     };
-    
 
   return (
     <div>
