@@ -2,28 +2,30 @@ import React, { useState } from 'react';
 
 export const CapturaDatos = () => {
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [csvFile, setCsvFile] = useState(null);
 
-  const handleFileSelect = event => {
-    setSelectedFile(event.target.files[0]);
-  };
-
-  const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append('csvFile', selectedFile);
-
+  const handleDownloadClick = async () => {
+    
     try {
-      const response = await axios.post('http://127.0.0.1:5173/cargar-csv', formData);
-      console.log(response.data);
+      const response = await fetch('/download-csv'); // Llama al endpoint en el backend
+      const blob = await response.blob();
+      setCsvFile(blob); // Guarda el archivo en el estado del componente
+
+      console.log(csvFile);
     } catch (error) {
-      console.error('Error al subir el archivo:', error);
+      console.error('Error downloading CSV:', error);
     }
+
   };
 
   return (
     <div>
-      <input type="file" onChange={handleFileSelect} />
-      <button onClick={handleUpload}>Subir CSV</button>
+       <button onClick={handleDownloadClick}>Descargar y Guardar CSV</button>
+        {csvFile && (
+          <a href={URL.createObjectURL(csvFile)} download="data.csv">
+            Descargar archivo CSV
+          </a>
+        )}
     </div>
   )
 }
