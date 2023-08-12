@@ -1,25 +1,29 @@
-import React from 'react';
-import { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 export const CapturaDatos = () => {
 
-  const csvUrl = 'https://drive.google.com/file/d/1XgrKrVwqG_vs1odKsOQds8L1JK47e4KE/view?usp=drive_link';
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleCsvUpload = async () => {
+  const handleFileSelect = event => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    const formData = new FormData();
+    formData.append('csvFile', selectedFile);
+
     try {
-      const response = await axios.get(csvUrl);
-      const csvData = response.data;
-      await axios.post('/cargar-csv', { csvData });
-      console.log('Archivo CSV cargado y procesado exitosamente');
+      const response = await axios.post('http://127.0.0.1:5173/cargar-csv', formData);
+      console.log(response.data);
     } catch (error) {
-      console.error('Error al cargar el archivo CSV:', error);
+      console.error('Error al subir el archivo:', error);
     }
   };
 
   return (
     <div>
-      <button onClick={handleCsvUpload}>Cargar CSV</button>
+      <input type="file" onChange={handleFileSelect} />
+      <button onClick={handleUpload}>Subir CSV</button>
     </div>
   )
 }

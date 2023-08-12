@@ -1,21 +1,24 @@
-import { pool } from "../db.js";
+/* import { pool } from "../db.js"; */
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+
 
 export const cargarClientes = async (req, res) => {
 
-  const { csvData } = req.body;
+    try {
+      const csvUrl = 'https://drive.google.com/file/d/1XgrKrVwqG_vs1odKsOQds8L1JK47e4KE/view?usp=drive_link'; // Reemplaza con la URL real del archivo CSV
+      const response = await axios.get(csvUrl, { responseType: 'arraybuffer' });
+      
+      const csvFileName = 'data.csv';
+      const filePath = path.join(__dirname, './archivos-csv', csvFileName); // Ruta donde guardar el archivo
+      
+      fs.writeFileSync(filePath, response.data);
+      
+      res.sendStatus(200);
+    } catch (error) {
+      console.error('Error downloading CSV:', error);
+      res.status(500).send('Error downloading CSV');
+    }
 
-  // Procesar csvData y realizar inserciones en la base de datos
-  const rows = csvData.split('\n');
-  for (const row of rows) {
-    const [CLIENTE, NOMBRE, FANTASIA, LOCALIDAD, PROVINCIA, EMAIL, CUIT, TIPO, POSTAL, ZONA, ACTIVIDAD, VENDEDOR, LIMITE, LISTA, PERSONAL, USUARIO, SALDO] = row.split(',');
-    
-    const query = `INSERT INTO clientes (CLIENTE, NOMBRE, FANTASIA, LOCALIDAD, PROVINCIA, EMAIL, CUIT, TIPO, POSTAL, ZONA, ACTIVIDAD, VENDEDOR, LIMITE, LISTA, PERSONAL, USUARIO, SALDO) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    
-    await pool.execute(query, [CLIENTE, NOMBRE, FANTASIA, LOCALIDAD, PROVINCIA, EMAIL, CUIT, TIPO, POSTAL, ZONA, ACTIVIDAD, VENDEDOR, LIMITE, LISTA, PERSONAL, USUARIO, SALDO]);
-  }
-
-  pool.end();
-
-  res.status(200).send('Archivo CSV cargado y procesado exitosamente');
 };
