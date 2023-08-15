@@ -1,19 +1,12 @@
 import { Router } from "express";
-import {
-  cargarClientes
-} from "../controllers/csv.controllers.js";
-
-import express from "express";
 import cors from 'cors';
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
+import { cargarClientes } from "../controllers/csv.controllers.js";
 
 const router = Router();
 
+router.use(cors()); // Configura CORS para permitir todas las solicitudes (en producción, configura las opciones de CORS según tus necesidades)
+
 // Ruta para manejar la carga del archivo CSV
-router.get('/download-csv', cargarClientes);
-  
+router.get('/get-csv', cargarClientes);
+
 export default router;

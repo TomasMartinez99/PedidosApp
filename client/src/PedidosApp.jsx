@@ -1,21 +1,13 @@
 import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
-import { IngresoPagina } from './auth';
-import { EscritorioPagina } from './escritorio';
+import { CsvAdministracion } from './paginas/CsvAdministracion';
 
 export const PedidosApp = () => {
-  const authStatus = "not-authenticated";
 
   return (
       <Routes>
-          {
-              (authStatus === 'authenticated') //
-              ? <Route path='/auth/*' element={ <IngresoPagina /> } />
-              : <Route path='/auth/*' element={ <EscritorioPagina /> } />
-          }
-          
-          <Route path='/*' element={ <Navigate to="/auth/login" /> } />
+          { <Route path='/' element={ <CsvAdministracion /> } /> }
       </Routes>
   )
 }
